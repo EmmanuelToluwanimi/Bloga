@@ -1,0 +1,35 @@
+.title-inp {
+    padding: 5px;
+    font-size: 30px;
+    width: 100%;
+    border: 0;
+    outline: 0;
+}
+
+/* .cp-btn{
+    display: table;
+}
+
+.cp-btn > input[type="file"] {
+    display: none;
+} */
+
+label {
+    padding: 10px;
+    background: red;
+    display: table;
+    color: #fff;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.img-container {
+    height: 300px;
+}
+
+.img-container> img {
+    object-fit: cover;
+    border-radius: 10px;
+}

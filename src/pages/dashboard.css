@@ -1,0 +1,77 @@
+.dashboard-holder {
+    display: flex;
+    padding: 0px;
+    /* height: 100%; */
+    /* min-height: 89vh; */
+}
+
+.sd {
+    width: 20%;
+    position: fixed;
+    height: 100%;
+    /* height: 100%; */
+    /* position: sticky; */
+    /* top: 40px; */
+}
+
+.sidebar {
+    height: 100%;
+    /* overflow-y: scroll; */
+}
+
+.platform {
+    width: 80%;
+    background-color: #F4F6F8;
+    /* margin-left: auto; */
+    height: 100%;
+    position: fixed;
+    right: 0;
+    /* top: 50px; */
+    /* overflow: hidden !important; */
+}
+
+.platform-holder{
+    overflow: auto;
+    height: 100%;
+    padding: 10px 10px 70px;
+}
+
+.user-card {
+    padding: 13px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.img-holder {
+    height: 100px;
+    width: 110px;
+    padding: 5px;
+}
+
+.userimg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.sidebar-menu {
+    padding: 10px 0px;
+}
+
+.menu {
+    padding: 10px;
+}
+
+.breadcrumb {
+    padding: 5px 20px;
+}
+
+.dash-content {
+    margin: 10px;
+    padding: 10px;
+    /* height: 100%; */
+    /* background-color: white; */
+}

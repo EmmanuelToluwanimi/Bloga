@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Container, Form, Button, Card, Alert } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import Nav from '../components/Nav';
+// import Nav from '../components/Nav';
 
 
 export default function Login() {
@@ -14,7 +14,7 @@ export default function Login() {
 
     return (
         <>
-            <Nav/>
+       ]
             <Container
                 className="d-flex align-items-center justify-content-center mt-5">
 

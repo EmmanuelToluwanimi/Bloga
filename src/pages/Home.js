@@ -1,6 +1,6 @@
 import React from 'react'
 import Blogposts from '../components/Blogposts';
-import Nav from '../components/Nav';
+// import Nav from '../components/Nav';
 // import bloglp from "../assets/image/bloglp.jpg";
 import './Home.css';
 
@@ -8,7 +8,7 @@ import './Home.css';
 export default function Home() {
     return (
         <>
-            <Nav />
+            
             <section id="home">
                 <div className="container">
 
