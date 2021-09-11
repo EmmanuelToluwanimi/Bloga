@@ -1,19 +1,20 @@
 import React from 'react';
-// import { Route, Switch, useRouteMatch, Link } from 'react-router-dom';
+import { Route, Switch, useRouteMatch, Link } from 'react-router-dom';
 // import Blogposts from '../components/Blogposts';
 // import Nav from "../components/Nav";
 import './dashboard.css';
 import bloglp from "../assets/image/bloglp.jpg";
 import Writeblogs from '../components/Writeblogs';
-// import Dashblogs from '../components/Dashblogs';
-// import Dashlogs from '../components/Dashlogs';
+import Dashblogs from '../components/Dashblogs';
+import Dashlogs from '../components/Dashlogs';
+import Profile from '../components/Profile';
 
 
 
 
 
 export default function Dashboard() {
-    // let { path, url } = useRouteMatch();
+    let { path, url } = useRouteMatch();
 
 
     return (
@@ -48,18 +49,18 @@ export default function Dashboard() {
 
                             </div>
                             <div className="sidebar-menu">
-                                <div className="menu border-top border-bottom">
+                                <Link to={`${url}`} className="menu border-top border-bottom d-block">
                                     Dashboard
-                                </div>
-                                <div className="menu border-top border-bottom mt-2">
+                                </Link>
+                                <Link to={`${url}/userblogs`} className="menu border-top border-bottom mt-2 d-block">
                                     Blogs
-                                </div>
-                                <div className="menu border-top border-bottom mt-2">
+                                </Link>
+                                <Link to={`${url}/write`} className="menu border-top border-bottom mt-2 d-block">
                                     Write
-                                </div>
-                                <div className="menu border-top border-bottom mt-2">
+                                </Link>
+                                <Link to={`${url}/profile`} className="menu border-top border-bottom mt-2 d-block">
                                     Account
-                                </div>
+                                </Link>
                                 <div className="menu border-top border-bottom mt-2">
                                     Notification
                                 </div>
@@ -75,10 +76,15 @@ export default function Dashboard() {
                             <div className="container breadcrumb">dashboard</div>
 
                             <div className="dash-content">
-                                All content goes here
-                                {/* <Dashlogs /> */}
-                                {/* <Dashblogs/> */}
-                                <Writeblogs/>
+                                <Switch>
+                                    All content goes here
+                                    <Route exact path={`${path}`} component={Dashlogs} />
+                                    <Route path={`${path}/userblogs`} component={Dashblogs} />
+                                    <Route path={`${path}/write`} component={Writeblogs} />
+                                    <Route path={`${path}/profile`} component={Profile} />
+                                </Switch>
+
+
                             </div>
                         </div>
 

@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 
 export default function Writeblogs() {
     const [value, setValue] = useState('');
+    const [previ, setPrevi] = useState(false);
 
     const modules = {
         toolbar: [
@@ -33,7 +34,11 @@ export default function Writeblogs() {
         'link', 'image', 'video'
     ];
 
-    
+    function handlePrevi() {
+
+        setPrevi(!previ);
+
+    }
 
 
     return (
@@ -41,36 +46,39 @@ export default function Writeblogs() {
             <section className="writeblogs w-100">
                 <div className="writeblogs-holder w-100 bg-white shadow p-4">
                     <div className="publish-container text-end">
-                        <Button variant="primary" className="mx-3">Preview</Button>
+                        <Button variant="primary" className="mx-3" onClick={handlePrevi}>{previ? 'Edit' : 'Preview'}</Button>
                         <Button variant="outline-success">Publish</Button>
                     </div>
 
-                    <div className="editor-container p-3">
+                    {previ ?
+                        <div>hello</div> :
+                        <div className="editor-container p-3">
 
-                        <div className="cp-container">
+                            <div className="cp-container">
 
-                            <label className="cp-btn btn btn-light text-muted text-center">
-                                <BsImage />
-                                <span className="px-3">Add a cover image</span>
-                                <input type="file" size="60" />
-                            </label>
+                                <label className="cp-btn btn btn-light text-muted text-center">
+                                    <BsImage />
+                                    <span className="px-3">Add a cover image</span>
+                                    <input type="file" size="60" />
+                                </label>
 
-                            <div style={value ==='' ? {display: 'none'} : {display: 'block'}} className="img-container my-3">
-                                <img src={bloglp} alt="coverimg" width="100%" height="100%" />
+                                <div style={value === '' ? { display: 'none' } : { display: 'block' }} className="img-container my-3">
+                                    <img src={bloglp} alt="coverimg" width="100%" height="100%" />
+                                </div>
+
                             </div>
 
+                            <input type="text" placeholder="Title..." className="title-inp my-4" />
+
+                            <ReactQuill theme="snow"
+                                value={value}
+                                modules={modules}
+                                formats={formats}
+                                onChange={setValue}
+                                placeholder="Write your blog post" />
+
                         </div>
-
-                        <input type="text" placeholder="Title..." className="title-inp my-4" />
-
-                        <ReactQuill theme="snow"
-                            value={value}
-                            modules={modules}
-                            formats={formats}
-                            onChange={setValue}
-                            placeholder="Write your blog post" />
-
-                    </div>
+                    }
                 </div>
             </section>
         </>
