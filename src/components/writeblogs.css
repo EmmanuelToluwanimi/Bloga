@@ -6,13 +6,9 @@
     outline: 0;
 }
 
-/* .cp-btn{
-    display: table;
+.writeblogs-holder{
+    border-radius: 10px;
 }
-
-.cp-btn > input[type="file"] {
-    display: none;
-} */
 
 label {
     padding: 10px;
