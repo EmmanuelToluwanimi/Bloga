@@ -10,7 +10,7 @@ export default function Home() {
         <>
             
             <section id="home">
-                <div className="container">
+                <div className="container-fluid p-0">
 
                     <div className="hero-section">
                         {/* <img src={bloglp} alt="notes" /> */}
