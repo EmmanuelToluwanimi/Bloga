@@ -94,7 +94,7 @@ export default function Dashlogs() {
                                         <Button variant="primary" className="w-100">{row.fat}</Button>
                                     </StyledTableCell>
                                     <StyledTableCell align="right">
-                                        <Button variant="primary" className="w-100">{row.carbs}</Button>
+                                        <Button variant="danger" className="w-100">{row.carbs}</Button>
                                     </StyledTableCell>
 
                                 </StyledTableRow>
