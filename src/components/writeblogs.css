@@ -10,12 +10,12 @@
     border-radius: 10px;
 }
 
-label {
+/* label {
     padding: 10px;
     background: red;
     display: table;
     color: #fff;
-}
+} */
 
 input[type="file"] {
     display: none;

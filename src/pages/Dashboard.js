@@ -49,22 +49,22 @@ export default function Dashboard() {
 
                             </div>
                             <div className="sidebar-menu">
-                                <Link to={`${url}`} className="menu border-top border-bottom d-block">
+                                <Link to={`${url}`} className="menu btn w-100 btn-light bordeer-0 d-block">
                                     Dashboard
                                 </Link>
-                                <Link to={`${url}/userblogs`} className="menu border-top border-bottom mt-2 d-block">
+                                <Link to={`${url}/userblogs`} className="menu btn w-100 btn-light bordeer-0 mt-2 d-block">
                                     Blogs
                                 </Link>
-                                <Link to={`${url}/write`} className="menu border-top border-bottom mt-2 d-block">
+                                <Link to={`${url}/write`} className="menu btn w-100 btn-light bordeer-0 mt-2 d-block">
                                     Write
                                 </Link>
-                                <Link to={`${url}/profile`} className="menu border-top border-bottom mt-2 d-block">
+                                <Link to={`${url}/profile`} className="menu btn w-100 btn-light bordeer-0 mt-2 d-block">
                                     Account
                                 </Link>
-                                <div className="menu border-top border-bottom mt-2">
+                                <div className="menu btn w-100 btn-light border-0 mt-2">
                                     Notification
                                 </div>
-                                <div className="menu border-top border-bottom mt-2">
+                                <div className="menu btn w-100 btn-light bordeer-0 mt-2">
                                     Sign Out
                                 </div>
                             </div>
