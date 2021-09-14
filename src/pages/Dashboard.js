@@ -24,7 +24,7 @@ export default function Dashboard() {
 
             <section id="dashboard">
                 <div className="container-fluid dashboard-holder">
-                    <div className="sd shadow bg-secondary text-white">
+                    <div className="sd shadow text-white">
                         <div className="sidebar shadow">
                             <div className="user-card border-bottom">
 
