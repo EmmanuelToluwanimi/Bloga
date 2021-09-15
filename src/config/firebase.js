@@ -11,6 +11,6 @@ const app = initializeApp({
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 })
 
-const analytics = getAnalytics(app);
+export const analytics = getAnalytics(app);
 
 export default app;
