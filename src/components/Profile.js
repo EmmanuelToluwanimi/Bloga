@@ -5,15 +5,17 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Delete } from '@material-ui/icons';
 import { AddAPhoto } from '@material-ui/icons';
+import { useAuth } from '../models/Contexts/Authcontext';
 
 
 
 export default function Profile() {
     const imgRef = useRef();
-    const [imgvalue, setImgvalue] = useState(false)
+    const [imgvalue, setImgvalue] = useState(false);
+    const { currentUser } = useAuth();
 
     function getImage() {
-        
+
         if (imgRef.current.value) {
             console.log(imgRef.current.value);
             setImgvalue(!imgvalue)
@@ -64,14 +66,14 @@ export default function Profile() {
 
                         <Form.Group className="my-3" controlId="formBasicUsername">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" placeholder="Enter username" />
+                            <Form.Control type="text" placeholder="Enter username" defaultValue={currentUser && currentUser.displayName}/>
                             <Form.Text className="text-muted">
-                                Useename goes here
+                                Username goes here
                             </Form.Text>
                         </Form.Group>
                         <Form.Group className="my-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Control type="email" placeholder="Enter email" defaultValue={currentUser && currentUser.email}/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>

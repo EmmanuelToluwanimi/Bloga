@@ -1,15 +1,33 @@
 import React, { useRef } from 'react';
 import { Container, Form, Button, Card, Alert } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-// import Nav from '../components/Nav';
-
+import { useAuth } from '../models/Contexts/Authcontext';
 
 
 export default function Signup() {
 
+    
     const usernameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
+    const { signup, error, setError, loading } = useAuth()
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        try {
+            await signup(
+                emailRef.current.value,
+                passwordRef.current.value,
+                usernameRef.current.value,
+            );
+            
+        } catch (err) {
+            console.log(err);
+            setError('Failed to create account');
+        }
+
+    }
 
 
 
@@ -26,8 +44,8 @@ export default function Signup() {
                             <h2 className="text-center mb-4">
                                 Sign Up
                             </h2>
-                            {'' && <Alert variant='danger'>{''}</Alert>}
-                            <Form onSubmit={''}>
+                            {error && <Alert variant='danger'>{error}</Alert>}
+                            <Form onSubmit={handleSubmit}>
                                 <Form.Group id="username">
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control type="text" ref={usernameRef} required />
@@ -43,8 +61,8 @@ export default function Signup() {
 
                                 <Button className="w-100 mt-4"
                                     type="submit"
-                                    disabled={''}>
-                                    Sign Up
+                                    disabled={loading}>
+                                    {loading ? 'Creating account...'  : 'Sign Up'}
                                 </Button>
                             </Form>
                         </Card.Body>

@@ -10,6 +10,7 @@ import Dashlogs from '../components/Dashlogs';
 import Profile from '../components/Profile';
 import { CgLoadbarSound, CgNotes, CgProfile, CgArrowLeftR } from "react-icons/cg";
 import { RiQuillPenFill, RiNotification2Fill } from "react-icons/ri";
+import { useAuth } from '../models/Contexts/Authcontext';
 
 
 
@@ -17,7 +18,17 @@ import { RiQuillPenFill, RiNotification2Fill } from "react-icons/ri";
 
 export default function Dashboard() {
     let { path, url } = useRouteMatch();
+    const { currentUser, logout } = useAuth();
 
+    function handleLogout() {
+        logout();
+    }
+
+    console.log(currentUser);
+    
+    if (!currentUser) {
+        return <h1>Loading...</h1>
+    }
 
     return (
         <>
@@ -32,27 +43,27 @@ export default function Dashboard() {
                                     {/* <Image src={bloglp} fluid roundedCircle /> */}
                                     <img src={bloglp} alt="useravatar" className="userimg avatar" />
                                 </div>
-                                <h5 className="username">Adekunle Ajasin</h5>
+                                <h5 className="username">{currentUser.displayName}</h5>
 
                             </div>
                             <div className="sidebar-menu">
                                 <Link to={`${url}`} className="menu btn w-100 text-white d-flex align-items-center gap-3  d-block">
-                                   <CgLoadbarSound/> Dashboard
+                                    <CgLoadbarSound /> Dashboard
                                 </Link>
                                 <Link to={`${url}/userblogs`} className="menu btn w-100 text-white d-flex align-items-center gap-3  mt-2 d-block">
-                                   <CgNotes/> Blogs
+                                    <CgNotes /> Blogs
                                 </Link>
                                 <Link to={`${url}/write`} className="menu btn w-100 text-white d-flex align-items-center gap-3  mt-2 d-block">
-                                   <RiQuillPenFill/> Write
+                                    <RiQuillPenFill /> Write
                                 </Link>
                                 <Link to={`${url}/profile`} className="menu btn w-100 text-white d-flex align-items-center gap-3  mt-2 d-block">
-                                   <CgProfile/> Profile
+                                    <CgProfile /> Profile
                                 </Link>
                                 <div className="menu btn w-100 text-white d-flex align-items-center gap-3 border-0 mt-2">
-                                   <RiNotification2Fill/> Notification
+                                    <RiNotification2Fill /> Notification
                                 </div>
-                                <div className="menu btn w-100 text-white d-flex align-items-center gap-3  mt-2">
-                                   <CgArrowLeftR/> Sign Out
+                                <div className="menu btn w-100 text-white d-flex align-items-center gap-3  mt-2" onClick={handleLogout}>
+                                    <CgArrowLeftR /> Sign Out
                                 </div>
                             </div>
                         </div>

@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import {
     getAuth,
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    updateProfile
 } from "firebase/auth";
 import app from '../../config/firebase';
 import { authReducer } from '../Reducers/authReducer';
@@ -22,49 +23,76 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const auth = getAuth(app);
     const history = useHistory();
+    const [error, setError] = useState()
+    const [loading, setLoading] = useState(false);
     const [currentUser, dispatch] = useReducer(authReducer);
 
-    function signup(email, password) {
+    function signup(email, password, username) {
+        setLoading(!loading);
+        const userdata = { displayName: username };
 
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
+                updateuser(userdata);
                 const user = userCredential.user;
-                dispatch({ type: ACTIONS.SET_USER, payload: { user: user } })
+                dispatch({ type: ACTIONS.SET_USER, payload: { user: user } });
                 console.log(user.email);
-                history.push("/")
+                setLoading(!loading);
+                history.push("/");
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 // ..
                 console.log(errorCode, errorMessage);
+                setLoading(!loading)
+                setError('Failed to create account')
             });
+
+        
     }
 
     function login(email, password) {
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed in 
+                // Signed in
+                setLoading(!loading);
                 const user = userCredential.user;
                 dispatch({ type: ACTIONS.SET_USER, payload: { user: user } })
                 // console.log(user);
-                history.push("/")
+                history.push("/");
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 // ..
                 console.log(errorCode, errorMessage);
+                setLoading(!loading)
+                setError('Failed to login')
             });
+    }
+
+    function updateuser(userdata) {
+        updateProfile(auth.currentUser, userdata).then(() => {
+            // Profile updated!
+            // ...
+            setLoading(!loading);
+        }).catch((error) => {
+            // An error occurred
+            // ...
+            setLoading(!loading);
+            setError('Failed to update profile');
+        });
     }
 
     function logout() {
         signOut(auth).then(() => {
             // Sign-out successful.
             dispatch({ type: ACTIONS.SET_USER, payload: { user: undefined } })
-            history.push("/login");
+            // history.push("/login");
+            history.replace("/login")
             console.log('Sign-out successful');
         }).catch((error) => {
             // An error happened.
@@ -98,7 +126,10 @@ export function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
-        logout
+        logout,
+        error,
+        setError,
+        loading
     }
 
     return (
