@@ -74,8 +74,8 @@ export function AuthProvider({ children }) {
             });
     }
 
-    function updateuser(userdata) {
-        updateProfile(auth.currentUser, userdata).then(() => {
+    async function updateuser(userdata) {
+        await updateProfile(auth.currentUser, userdata).then(() => {
             // Profile updated!
             // ...
             setLoading(!loading);

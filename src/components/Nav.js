@@ -1,7 +1,9 @@
+import { Avatar } from '@material-ui/core';
+import { Person } from '@material-ui/icons';
 import React from 'react';
 import { Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import bloglp from "../assets/image/bloglp.jpg";
+// import bloglp from "../assets/image/bloglp.jpg";
 import { useAuth } from '../models/Contexts/Authcontext';
 
 export default function Nav() {
@@ -11,14 +13,23 @@ export default function Nav() {
     //     name: 'Adekunle Ajasin',
     //     imagep: bloglp
     // }
+    
 
     let navmenu;
-    console.log(currentUser);
+    // if (currentUser) {
+    //     console.log(currentUser.displayName);
+    // }
 
     if (currentUser) {
-        navmenu = <Link className="text-white d-flex gap-2 btn border-white" to="/dashboard">
-            <img src={bloglp} alt="userimage" width="45px" className="img img-fluid rounded-circle" />
-            <span>{currentUser.displayName}</span>
+        navmenu = <Link className="text-white d-flex align-items-center gap-2 btn border-white" to="/dashboard">
+            <Avatar alt="Remy Sharp">
+                <Person/>
+            </Avatar>
+            <span>
+                {
+                    currentUser.displayName === null ? "Dashboard" : currentUser.displayName
+                }
+            </span>
         </Link>
     } else {
         navmenu = <div className="d-flex gap-2">
