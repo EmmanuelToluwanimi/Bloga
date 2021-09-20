@@ -21,7 +21,7 @@ export default function Nav() {
     // }
 
     if (currentUser) {
-        navmenu = <Link className="text-white d-flex align-items-center gap-2 btn border-white" to="/dashboard">
+        navmenu = <Link className="text-white d-flex align-items-center gap-2 btn py-0" to="/dashboard">
             <Avatar alt="Remy Sharp">
                 <Person/>
             </Avatar>

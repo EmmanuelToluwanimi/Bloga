@@ -11,8 +11,11 @@ import { useAuth } from '../models/Contexts/Authcontext';
 
 export default function Profile() {
     const imgRef = useRef();
+    const usernameRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
     const [imgvalue, setImgvalue] = useState(false);
-    const { currentUser } = useAuth();
+    const { currentUser, updateuser, changeEmail, changePassword } = useAuth();
 
     function getImage() {
 
@@ -47,6 +50,22 @@ export default function Profile() {
 
     }
 
+    function handleSubmit(e) {
+
+
+        const userdata = {
+            displayName: usernameRef.current.value,
+        }
+
+        updateuser(userdata);
+        changeEmail(emailRef.current.value);
+        if (passwordRef.current.value !== '') {
+            changePassword(passwordRef.current.value)
+        }
+        e.preventDefault();
+        console.log(userdata);
+    }
+
 
     return (
         <>
@@ -54,7 +73,7 @@ export default function Profile() {
                 <div className="profile-container bg-white p-4 rounded shadow">
 
 
-                    <Form className="">
+                    <Form onSubmit={handleSubmit}>
 
                         <div className="user-img-container">
 
@@ -66,25 +85,26 @@ export default function Profile() {
 
                         <Form.Group className="my-3" controlId="formBasicUsername">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" placeholder="Enter username" defaultValue={currentUser && currentUser.displayName}/>
+                            <Form.Control type="text" ref={usernameRef} placeholder="Enter username" defaultValue={currentUser && currentUser.displayName} />
                             <Form.Text className="text-muted">
                                 Username goes here
                             </Form.Text>
                         </Form.Group>
                         <Form.Group className="my-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" defaultValue={currentUser && currentUser.email}/>
-                            <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
-                            </Form.Text>
+                            <Form.Control type="email" ref={emailRef} placeholder="Enter email" defaultValue={currentUser && currentUser.email} />
+
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control type="password" ref={passwordRef} placeholder="Password" minLength="6" maxLength="12" />
+                            <Form.Text className="text-muted">
+                                New password must be 6 - 12 strings
+                            </Form.Text>
                         </Form.Group>
 
-                        <Button variant="primary" type="button">
+                        <Button variant="primary" type="submit">
                             Update Profile
                         </Button>
                     </Form>

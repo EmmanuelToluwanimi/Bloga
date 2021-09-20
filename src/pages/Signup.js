@@ -6,7 +6,7 @@ import { useAuth } from '../models/Contexts/Authcontext';
 
 export default function Signup() {
 
-    
+
     const usernameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -21,7 +21,7 @@ export default function Signup() {
                 passwordRef.current.value,
                 usernameRef.current.value,
             );
-            
+
         } catch (err) {
             console.log(err);
             setError('Failed to create account');
@@ -49,20 +49,29 @@ export default function Signup() {
                                 <Form.Group id="username">
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control type="text" ref={usernameRef} required />
+                                    <Form.Text className="text-muted">
+                                        Provide a unique name
+                                    </Form.Text>
                                 </Form.Group>
                                 <Form.Group id="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" ref={emailRef} required />
+                                    <Form.Text className="text-muted">
+                                        Enter a valid a email address
+                                    </Form.Text>
                                 </Form.Group>
                                 <Form.Group id="password">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" ref={passwordRef} min="6" max="12" required />
+                                    <Form.Control type="password" ref={passwordRef} minLength="6" maxLength="12" required />
+                                    <Form.Text className="text-muted">
+                                        New password must be 6 - 12 strings
+                                    </Form.Text>
                                 </Form.Group>
 
                                 <Button className="w-100 mt-4"
                                     type="submit"
                                     disabled={loading}>
-                                    {loading ? 'Creating account...'  : 'Sign Up'}
+                                    {loading ? 'Creating account...' : 'Sign Up'}
                                 </Button>
                             </Form>
                         </Card.Body>
