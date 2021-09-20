@@ -10,6 +10,21 @@ import 'react-quill/dist/quill.snow.css';
 export default function Writeblogs() {
     const [value, setValue] = useState('');
     const [previ, setPrevi] = useState(false);
+    const blogPost = {
+        title: '',
+        coverImg: '',
+        Category: '',
+        content: '',
+        likes: [],
+        read: 0,
+        published: false,
+        author: {
+            userId: '',
+            displayName: '',
+            imgUrl: ''
+        },
+
+    }
 
     const modules = {
         toolbar: [
@@ -19,7 +34,9 @@ export default function Writeblogs() {
             [{ 'list': 'ordered' }, { 'list': 'bullet' },
             { 'indent': '-1' }, { 'indent': '+1' }],
             ['link', 'image', 'video'],
-            ['clean']
+            ['clean'],
+            ['code-block'],
+
         ],
         clipboard: {
             // toggle to add extra line breaks when pasting HTML:
@@ -31,27 +48,35 @@ export default function Writeblogs() {
         'header', 'font', 'size',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
         'list', 'bullet', 'indent',
-        'link', 'image', 'video'
+        'link', 'image', 'video',
+        'codeblock'
     ];
 
-    function handlePrevi() {
+    // function handlePrevi() {
+    //     setPrevi(!previ);
+    // }
 
-        setPrevi(!previ);
-
+    function getText() {
+        console.log(value);
     }
 
+    function createMarkup() {
+        return { __html: value };
+    }
 
     return (
         <>
             <section className="writeblogs w-100">
                 <div className="writeblogs-holder w-100 bg-white shadow p-4">
                     <div className="publish-container text-end">
-                        <Button variant="primary" className="mx-3" onClick={handlePrevi}>{previ? 'Edit' : 'Preview'}</Button>
-                        <Button variant="outline-success">Publish</Button>
+                        <Button variant="primary" className="mx-3" onClick={() => { setPrevi(!previ) }}>{previ ? 'Edit' : 'Preview'}</Button>
+                        <Button variant="outline-success" onClick={getText}>Publish</Button>
                     </div>
 
                     {previ ?
-                        <div>hello</div> :
+                        <div className="preview-blog" dangerouslySetInnerHTML={createMarkup()}>
+                            
+                        </div> :
                         <div className="editor-container p-3">
 
                             <div className="cp-container">
@@ -62,7 +87,7 @@ export default function Writeblogs() {
                                     <input type="file" size="60" />
                                 </label>
 
-                                <div style={value === '' ? { display: 'none' } : { display: 'block' }} className="img-container my-3">
+                                <div style={value === '' ? { display: 'none' } : { display: 'none' }} className="img-container my-3">
                                     <img src={bloglp} alt="coverimg" width="100%" height="100%" />
                                 </div>
 
