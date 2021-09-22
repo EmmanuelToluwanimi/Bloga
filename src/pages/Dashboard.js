@@ -24,7 +24,7 @@ export default function Dashboard() {
         logout();
     }
 
-    // console.log(currentUser.displayName);
+    // console.log(currentUser);
     
     if (!currentUser) {
         return <h1>Loading...</h1>

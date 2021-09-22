@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import './writeblogs.css';
 import { BsImage } from "react-icons/bs";
-import bloglp from "../assets/image/bloglp.jpg";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useAuth } from '../models/Contexts/Authcontext';
 
 
 export default function Writeblogs() {
+    const { currentUser } = useAuth();
+    const titleRef = useRef();
+    const imgRef = useRef();
+    const quillRef = useRef();
+    const [coverImga, setCoverImga] = useState(null);
     const [value, setValue] = useState('');
     const [previ, setPrevi] = useState(false);
-    const blogPost = {
-        title: '',
-        coverImg: '',
-        Category: '',
-        content: '',
-        likes: [],
-        read: 0,
-        published: false,
-        author: {
-            userId: '',
-            displayName: '',
-            imgUrl: ''
-        },
+    const [blogPost, setBlogPost] = useState(
+        {
+            title: '',
+            coverImg: coverImga,
+            Category: '',
+            content: value,
+            likes: [],
+            read: 0,
+            published: false,
+            author: {
+                userId: currentUser.uid,
+                displayName: currentUser.displayName,
+                photoUrl: ''
+            },
 
-    }
+        }
+    )
 
     const modules = {
         toolbar: [
@@ -56,12 +63,41 @@ export default function Writeblogs() {
     //     setPrevi(!previ);
     // }
 
+    function addCoverImg(e) {
+        const reader = new FileReader();
+        const imgfile = e.target.files[0]
+
+        if (imgfile) {
+            reader.readAsDataURL(imgfile)
+        };
+
+        reader.onload = (readerEvent) => {
+            setCoverImga(readerEvent.target.result)
+        }
+
+    }
+
     function getText() {
-        console.log(value);
+        const updatepost = {
+            ...blogPost,
+            published: !blogPost.published,
+            content: quillRef.current.state.value
+        }
+        setBlogPost(updatepost);
+
+        handlePost(updatepost)
+    }
+
+    function handlePost(updatepost) {
+        console.log(updatepost);
+    }
+
+    const placeHolder = () => {
+        return value === '' ? `<h1 id="placeholder">Nothing to preview here</h1>` : value
     }
 
     function createMarkup() {
-        return { __html: value };
+        return { __html: placeHolder() };
     }
 
     return (
@@ -75,7 +111,7 @@ export default function Writeblogs() {
 
                     {previ ?
                         <div className="preview-blog" dangerouslySetInnerHTML={createMarkup()}>
-                            
+
                         </div> :
                         <div className="editor-container p-3">
 
@@ -84,22 +120,42 @@ export default function Writeblogs() {
                                 <label className="cp-btn btn btn-light text-muted text-center">
                                     <BsImage />
                                     <span className="px-3">Add a cover image</span>
-                                    <input type="file" size="60" />
+                                    <input
+                                        type="file"
+                                        size="60"
+                                        ref={imgRef}
+                                        onChange={addCoverImg}
+                                    />
                                 </label>
 
-                                <div style={value === '' ? { display: 'none' } : { display: 'none' }} className="img-container my-3">
-                                    <img src={bloglp} alt="coverimg" width="100%" height="100%" />
-                                </div>
+                                {
+                                    coverImga && (
+                                        <div className="img-container my-3">
+                                            <img src={coverImga} alt="coverimg" width="100%" height="100%" />
+                                        </div>
+                                    )
+                                }
 
                             </div>
 
-                            <input type="text" placeholder="Title..." className="title-inp my-4" />
+                            <input
+                                type="text"
+                                placeholder="Title..."
+                                ref={titleRef}
+                                onChange={() => setBlogPost(
+                                    {
+                                        ...blogPost,
+                                        title: titleRef.current.value
+                                    }
+                                )}
+                                className="title-inp my-4" />
 
                             <ReactQuill theme="snow"
                                 value={value}
                                 modules={modules}
                                 formats={formats}
                                 onChange={setValue}
+                                ref={quillRef}
                                 placeholder="Write your blog post" />
 
                         </div>

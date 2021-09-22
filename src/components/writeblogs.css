@@ -48,3 +48,8 @@ input[type="file"] {
     padding: 40px;
     border-radius: 10px;
 }
+
+.preview-blog>#placeholder {
+    text-align: center;
+    color: #c4c4c4;
+}
