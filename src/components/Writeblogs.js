@@ -106,13 +106,28 @@ export default function Writeblogs() {
                 <div className="writeblogs-holder w-100 bg-white shadow p-4">
                     <div className="publish-container text-end">
                         <Button variant="primary" className="mx-3" onClick={() => { setPrevi(!previ) }}>{previ ? 'Edit' : 'Preview'}</Button>
-                        <Button variant="outline-success" onClick={getText}>Publish</Button>
+                        {
+                            !previ && (<Button variant="outline-success" onClick={getText}>Publish</Button>)
+                        }
                     </div>
 
                     {previ ?
-                        <div className="preview-blog" dangerouslySetInnerHTML={createMarkup()}>
+                        (
+                            <div className="post-preview-wrapper">
 
-                        </div> :
+                                <h1 className="my-3 text-center">{blogPost.title}</h1>
+
+                                {
+                                    coverImga && (
+                                        <div className="p-img-block">
+                                            <img src={coverImga} alt="coverimg" />
+                                        </div>
+                                    )
+                                }
+
+                                <div className="preview-blog" dangerouslySetInnerHTML={createMarkup()}></div>
+                            </div>
+                        ) :
                         <div className="editor-container p-3">
 
                             <div className="cp-container">
@@ -142,6 +157,7 @@ export default function Writeblogs() {
                                 type="text"
                                 placeholder="Title..."
                                 ref={titleRef}
+                                value={blogPost.title}
                                 onChange={() => setBlogPost(
                                     {
                                         ...blogPost,
