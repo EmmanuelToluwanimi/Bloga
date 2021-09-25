@@ -13,7 +13,7 @@ export default function Nav() {
     //     name: 'Adekunle Ajasin',
     //     imagep: bloglp
     // }
-    
+
 
     let navmenu;
     // if (currentUser) {
@@ -23,7 +23,7 @@ export default function Nav() {
     if (currentUser) {
         navmenu = <Link className="text-white d-flex align-items-center gap-2 btn py-0" to="/dashboard">
             <Avatar alt="Remy Sharp">
-                <Person/>
+                <Person />
             </Avatar>
             <span>
                 {
@@ -47,10 +47,12 @@ export default function Nav() {
         <>
             <Navbar bg="dark" variant="dark" className="p-0" sticky="top">
                 <Container>
-                    <Navbar.Brand href="/">
-                        <h2 className="pb-1">
-                            <span style={{ color: 'lightblue' }}>B</span>loga
-                        </h2>
+                    <Navbar.Brand>
+                        <Link to="/" className="btn">
+                            <h2 className="pb-1 text-white">
+                                <span style={{ color: 'lightblue' }}>B</span>loga
+                            </h2>
+                        </Link>
                     </Navbar.Brand>
 
                     {navmenu}
