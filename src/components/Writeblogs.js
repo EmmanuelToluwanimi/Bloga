@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useAuth } from '../models/Contexts/Authcontext';
 import { useNewBlog } from '../models/Contexts/Blogcontext';
-
+import { Alert } from 'react-bootstrap';
 
 
 export default function Writeblogs() {
@@ -17,13 +17,15 @@ export default function Writeblogs() {
         addCoverImg,
         addTitle,
         addContent,
-        changeStatus
+        changeStatus,
+        writeError,
+        btnLoadn
 
     } = useNewBlog();
 
     const imgRef = useRef();
     const quillRef = useRef();
-    
+
     const [value, setValue] = useState('');
     const [previ, setPrevi] = useState(false);
 
@@ -81,9 +83,18 @@ export default function Writeblogs() {
         <>
             <section className="writeblogs w-100">
                 <div className="writeblogs-holder w-100 bg-white shadow p-4">
+                    {writeError && <Alert variant='warning'>{writeError}</Alert>}
                     <div className="publish-container text-end">
-                        <Button variant="primary" className="mx-3" onClick={() => { setPrevi(!previ) }}>{previ ? 'Edit' : 'Preview'}</Button>
-                        <Button variant="outline-success" onClick={changeStatus}>Publish</Button>
+                        <Button
+                            variant="primary"
+                            className="mx-3"
+                            onClick={() => { setPrevi(!previ) }}
+                        >{previ ? 'Edit' : 'Preview'}</Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={changeStatus}
+                            disabled={btnLoadn}
+                        >Publish</Button>
                     </div>
 
                     {previ ?

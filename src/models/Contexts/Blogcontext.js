@@ -1,13 +1,19 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { ACTIONS } from '../Reducers/action';
 import { newBlogReducer } from '../Reducers/newBlogReducer';
+import { v4 as uuidv4 } from 'uuid';
 import {
     Timestamp,
     collection,
     addDoc,
     getFirestore
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+    getStorage,
+    ref,
+    uploadString,
+    getDownloadURL,
+} from "firebase/storage";
 import { useHistory } from 'react-router-dom';
 
 
@@ -22,9 +28,12 @@ export function BlogProvider({ children }) {
     const history = useHistory();
     const storage = getStorage();
 
+    const [btnLoadn, setBtnLoadn] = useState(false);
+    const [writeError, setWriteError] = useState('');
     const [dImg, setDImg] = useState('');
 
     const [newBlog, dispatch] = useReducer(newBlogReducer, {
+        postId: '',
         title: '',
         coverImg: '',
         Category: '',
@@ -90,9 +99,18 @@ export function BlogProvider({ children }) {
     }
 
     function changeStatus() {
+
+        const contentX = newBlog.content === '';
+        const titleX = newBlog.title === '';
+
+        if (contentX || titleX) {
+            return setWriteError('Post must contain atleast a title and content');
+        }
+
         dispatch({
             type: ACTIONS.CHANGE_NEW_BLOG_STATUS,
             payload: {
+                postId: uuidv4(),
                 published: true,
                 createdAt: Timestamp.now().toDate()
             }
@@ -114,14 +132,23 @@ export function BlogProvider({ children }) {
     }
 
     function uploadImg() {
+        setBtnLoadn(true);
         const storageRef = ref(storage, `postImages/${dImg}`);
-        const uploadTask = uploadBytes(storageRef, newBlog.coverImg, 'data_url');
+        const uploadTask = uploadString(storageRef, newBlog.coverImg, 'data_url');
 
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                console.log('Uploaded a blob or file!');
-            },
-            (error) => {
+        uploadTask.then((snapshot) => {
+            console.log('Uploaded a data_url string!');
+            // Upload completed successfully, now we can get the download URL
+            getDownloadURL(storageRef).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                const updateBlog = { ...newBlog, coverImg: downloadURL }
+                console.log(updateBlog);
+                sendPostToFirebase(updateBlog);
+
+            });
+        })
+            .catch((error) => {
+                setBtnLoadn(false);
                 switch (error.code) {
                     case 'storage/unauthorized':
                         console.log(`User doesn't have permission to access the object`);
@@ -135,46 +162,35 @@ export function BlogProvider({ children }) {
                         break;
                     default: return error;
                 }
-            },
-            () => {
-                // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                    const updateBlog = { ...newBlog, coverImg: downloadURL }
-                    console.log(updateBlog);
-                    sendPostToFirebase(updateBlog);
-
-                });
-            }
-        )
+            })
     }
 
     async function sendPostToFirebase(newBlog) {
-
+        setBtnLoadn(true);
 
         try {
-            const docRef = await addDoc(collection(db, "users"), newBlog);
-            history.replace('/')
-            console.log("Document written with ID: ", docRef.id);
+            const docRef = await addDoc(collection(db, "posts"), newBlog);
             resetBlog();
+            setBtnLoadn(false);
+            history.replace('/');
+            console.log("Document written with ID: ", docRef.id);
         } catch (e) {
+            setBtnLoadn(false);
             console.error("Error adding document: ", e);
         }
     }
 
     function publishPost() {
+        // console.log(newBlog);
         if (newBlog.published === false) {
-            return console.log('Publish a post');
+            return;
         }
 
         if (dImg === '') {
-            // return sendPostToFirebase(newBlog)
-            return console.log('setFirebase()');
+            return sendPostToFirebase(newBlog)
         }
 
-        // return uploadImg()
-        return console.log('uploadimg()')
-
+        return uploadImg()
 
     }
 
@@ -190,7 +206,9 @@ export function BlogProvider({ children }) {
         addCoverImg,
         addTitle,
         addContent,
-        changeStatus
+        changeStatus,
+        writeError,
+        btnLoadn
     }
 
     return (

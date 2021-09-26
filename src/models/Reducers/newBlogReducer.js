@@ -33,6 +33,7 @@ export const newBlogReducer = (newBlog, action) => {
         case ACTIONS.CHANGE_NEW_BLOG_STATUS:
             return {
                 ...newBlog,
+                postId: action.payload.postId,
                 published: action.payload.published,
                 createdAt: action.payload.createdAt
             }

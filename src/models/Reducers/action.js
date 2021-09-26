@@ -1,5 +1,5 @@
 export const ACTIONS = {
-    GET_CURRENT_USER : 'getCurrentUser',
+    GET_CURRENT_USER: 'getCurrentUser',
     SET_USER: 'setSignedInUser',
     SET_NEW_BLOG_USER: 'setNewBlogUser',
     ADD_NEW_BLOG_COVER_IMG: 'addNewBlogCoverImg',
