@@ -22,7 +22,6 @@ export default function Home() {
 
                     <Blogposts />
 
-
                 </div>
             </section>
         </>

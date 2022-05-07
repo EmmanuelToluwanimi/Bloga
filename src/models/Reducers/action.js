@@ -6,5 +6,5 @@ export const ACTIONS = {
     ADD_NEW_BLOG_TITLE: 'addNewBlogTitle',
     ADD_NEW_BLOG_CONTENT: 'addNewBlogContent',
     CHANGE_NEW_BLOG_STATUS: 'changeNewBlogStatus',
-    RESET_BLOG: 'resetBlog'
+     RESET_BLOG: 'resetBlog'
 }
